@@ -52,6 +52,28 @@ public class danxianglianbiao {
     }
 
     /**
+     * 得到首节点
+     *
+     * @return {@link danxianglianbiao}
+     */
+    public danxianglianbiao getHead(){
+        return this.next;
+    }
+
+    /**
+     * 得到尾节点
+     *
+     * @return {@link danxianglianbiao}
+     */
+    public danxianglianbiao getTail(){
+        danxianglianbiao tmp = this.next;
+        while(tmp.next != null){
+            tmp = tmp.next;
+        }
+        return tmp;
+    }
+
+    /**
      * 链表是否为空
      *
      * @return ture 为空
@@ -83,7 +105,7 @@ public class danxianglianbiao {
      * @throws ananException 安安例外
      */
     public int getNode(int index) throws ananException {
-        if (index > this.getLength() || index <= 0){
+        if (index <= 0 || this.getLength() < index ){
             throw new ananException("error,可能是链表没有那么长，或者输入位置为0或负数");
         }
         int value = 0;
@@ -99,7 +121,7 @@ public class danxianglianbiao {
      * 根据值查找节点序号
      *
      * @param value 价值
-     * @return int 如果找不到，返回0
+     * @return int 如果找不到，返回-1
      */
     public int getNodeIndexByValue(int value){
         int result = 1;
@@ -113,8 +135,8 @@ public class danxianglianbiao {
                 tmp = tmp.next;
             }
         }
-        //如果查到尾还没找到，返回0
-        return 0;
+        //如果查到尾还没找到，返回-1
+        return -1;
     }
 
     /**
@@ -143,7 +165,7 @@ public class danxianglianbiao {
      */
     public void insertNode(danxianglianbiao node,int index) throws ananException{
         //先要找到该位置的节点
-        if (index > this.getLength() || index < 0){
+        if (index < 0 || this.getLength() < index ){
             throw new ananException("error,可能是链表没有那么长，或者输入位置为负数");
         }
         danxianglianbiao tmp = this;
@@ -166,7 +188,7 @@ public class danxianglianbiao {
      */
     public danxianglianbiao insertNodeL(danxianglianbiao node,int index) throws  ananException{
         //先要找到该位置的节点
-        if (index > this.getLength() || index < 0){
+        if (index < 0 || this.getLength() < index ){
             throw new ananException("error,可能是链表没有那么长，或者输入位置为负数");
         }
         danxianglianbiao tmp = this;
@@ -187,7 +209,7 @@ public class danxianglianbiao {
      * @throws ananException 安安例外
      */
     public void deleteNodeByIndex(int index)throws ananException{
-        if (index > this.getLength() || index <= 0){
+        if (index <= 0 || this.getLength() < index ){
             throw new ananException("error,可能是链表没有那么长，或者输入位置为0或负数");
         }
         danxianglianbiao tmp = this;
@@ -207,7 +229,7 @@ public class danxianglianbiao {
      * @throws ananException 安安例外
      */
     public danxianglianbiao deleteNodeByIndexL(int index)throws ananException{
-        if (index > this.getLength() || index <= 0){
+        if (index <= 0 || this.getLength() < index ){
             throw new ananException("error,可能是链表没有那么长，或者输入位置为0或负数");
         }
         danxianglianbiao tmp = this;
@@ -217,6 +239,58 @@ public class danxianglianbiao {
         }
         //执行删除
         tmp.next = tmp.next.next;
+        return this;
+    }
+
+    /**
+     * 根据值删除节点（一次只删除一个）
+     *
+     * @param value 价值
+     * @throws ananException 安安例外
+     */
+    public void deleteNodeByValue(int value) throws ananException{
+        danxianglianbiao tmp = this;
+        while (tmp.next != null){
+            if (tmp.next.val == value){
+                //执行删除
+                tmp.next = tmp.next.next;
+                //如果这里不break，则会把链表中所有的值为value的节点删除
+                break;
+            }
+            tmp = tmp.next;
+        }
+    }
+    /**
+     * 根据值删除节点（删除全部目标值节点）
+     *
+     * @param value 价值
+     * @throws ananException 安安例外
+     */
+    public void deleteNodeByValueAll(int value) throws ananException{
+        danxianglianbiao tmp = this;
+        while (tmp.next != null){
+            if (tmp.next.val == value){
+                //执行删除
+                tmp.next = tmp.next.next;
+            }
+            tmp = tmp.next;
+        }
+    }
+
+    /**
+     * 根据值删除节点（链式调用）
+     *
+     * @param value 价值
+     * @throws ananException 安安例外
+     */
+    public danxianglianbiao deleteNodeByValueL(int value) throws ananException{
+        danxianglianbiao tmp = this;
+        while (tmp.next != null){
+            if (tmp.next.val == value){
+                //执行删除
+                tmp.next = tmp.next.next;
+            }
+        }
         return this;
     }
 
@@ -231,6 +305,7 @@ public class danxianglianbiao {
         //初始化各个节点并构建引用指向
         for (int i = 0; i < arr.length; i++) {
             root.next = new danxianglianbiao(arr[i]);
+            root = root.next;
         }
         return this;
     }
@@ -252,5 +327,21 @@ public class danxianglianbiao {
         return this;
     }
 
+    /**
+     * 遍历链表
+     */
+    public void ergodic(){
+        danxianglianbiao tmp = this.next;
+        while (tmp != null){
+            System.out.print(tmp.val+"->");
+            tmp = tmp.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        danxianglianbiao root = initLinkedList();
+        int [] arr = {1,2,3,4};
+        root.createLinkedListByTail(arr).ergodic();
+    }
 
 }
