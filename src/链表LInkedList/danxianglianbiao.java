@@ -10,9 +10,26 @@ import Handler.ananException;
  */
 public class danxianglianbiao {
     //节点值
-    int val;
+    private int val;
     //指向下一个节点的指针（引用）
-    danxianglianbiao next;
+    private danxianglianbiao next;
+
+    public int getVal() {
+        return val;
+    }
+
+    public void setVal(int val) {
+        this.val = val;
+    }
+
+    public danxianglianbiao getNext() {
+        return next;
+    }
+
+    public void setNext(danxianglianbiao next) {
+        this.next = next;
+    }
+
     //构造函数
 
 
